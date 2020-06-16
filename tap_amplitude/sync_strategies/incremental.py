@@ -70,10 +70,12 @@ def sync_table(connection, catalog_entry, state, columns):
             == "date-time"
         ):
             replication_key_value = pendulum.parse(replication_key_value)
+            replication_key_max = pendulum.now("UTC").subtract(minutes=20)
 
-        select_sql += " WHERE {} >= '{}' ORDER BY {} ASC".format(
+        select_sql += " WHERE {0} >= '{1}' AND {0} < {2} ORDER BY {3} ASC".format(
             catalog_entry.replication_key,
             replication_key_value,
+            replication_key_max,
             catalog_entry.replication_key,
         )
 
