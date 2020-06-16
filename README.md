@@ -109,7 +109,7 @@ Messages are written to standard output following the Singer specification. The 
 
 ### Incremental
 
-Incremental replication works in conjunction with a state file to only extract new records each time the tap is invoked.
+Incremental replication works in conjunction with a state file to only extract new records each time the tap is invoked. Due to the possibility of late-arriving events (it can take up to 15 minutes for records to be available in Snowflake after they happen) there is a 20-minute time delay. This means that the tap will not attempt to pull records with event times sooner than 20 minutes before the current time.
 
 
 ## Tests
