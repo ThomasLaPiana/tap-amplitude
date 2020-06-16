@@ -18,9 +18,10 @@ LOGGER = singer.get_logger()
 
 
 def generate_select_sql(catalog_entry, columns):
-    catalog_metadata = metadata.to_map(catalog_entry.metadata)
-    stream_metadata = catalog_metadata.get((), {})
-
+    """
+    Generate the SQL Select statement to retrieve the rows
+    from Snowflake, sans the WHERE clause.
+    """
     select_sql = """
                 SELECT {}
                     FROM {}
@@ -32,6 +33,7 @@ def generate_select_sql(catalog_entry, columns):
 
 
 def process_row(row, columns):
+    """ Clean up the raw row retrieved from Snowflake and convert it to a list."""
     utc = pytz.timezone("UTC")
     row_as_list = list(row)
 
